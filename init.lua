@@ -52,6 +52,14 @@ vim.o.expandtab = true
 
 vim.g.have_nerd_font = true
 
+-- Example Neovide settings
+if vim.g.neovide then
+  vim.o.guifont = "LiterationMono Nerd Font Mono:h12" -- font
+  vim.g.neovide_scale_factor = 1.0
+  vim.g.neovide_fullscreen = false
+  vim.g.neovide_scroll_animation_length = 0.2
+end
+
 -- make sure sign gutter is visible to remove jitter
 vim.opt.signcolumn = 'yes'
 
@@ -180,6 +188,7 @@ require("lazy").setup({
                   --  This is where a variable was first declared, or where a function is defined, etc.
                   --  To jump back, press <C-t>.
                   map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+                  map('<m-j>', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
                   -- WARN: This is not Goto Definition, this is Goto Declaration.
                   --  For example, in C this would take you to the header.
