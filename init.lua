@@ -137,11 +137,13 @@ require("lazy").setup({
         -- Allows extra capabilities provided by blink.cmp
         {
           'saghen/blink.cmp',
+          -- NOTE: sometimes lazy.vim doesn't build automatically, run this command in stdpath('data')/blink.cmp/ manually
+          build = 'cargo build --release',
           opts = {
             sources = {
                 default = { 'lsp', 'path', 'snippets', 'buffer' },
             },
-            fuzzy = { implementation = "prefer_rust_with_warning" }
+            fuzzy = { implementation = "prefer_rust" }
           }
         },
       },
@@ -278,7 +280,7 @@ vim.keymap.set('n', '<C-p>', function()
 end, { desc = 'Telescope find files in code folder' })
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+vim.keymap.set('n', '<leader>fb', builtin.current_buffer_fuzzy_find, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 vim.keymap.set('n', '<leader>fv', function() 
     builtin.find_files { cwd = vim.fn.stdpath('config') }
