@@ -54,8 +54,8 @@ vim.g.have_nerd_font = true
 
 -- Example Neovide settings
 if vim.g.neovide then
-  vim.o.guifont = "LiterationMono Nerd Font Mono:h12" -- font
-  vim.g.neovide_scale_factor = 1.0
+  --vim.o.guifont = "LiterationMono Nerd Font Mono:h12" -- font
+  vim.g.neovide_scale_factor = 0.8
   vim.g.neovide_fullscreen = false
   vim.g.neovide_scroll_animation_length = 0.2
 end
@@ -239,8 +239,21 @@ require("lazy").setup({
         }
 
         -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-        vim.cmd.colorscheme 'tokyonight-storm'
+        --vim.cmd.colorscheme 'tokyonight-storm'
       end,
+    },
+
+    {
+      'sainnhe/gruvbox-material',
+      lazy = false,
+      priority = 1000,
+      config = function()
+        -- vim.g.gruvbox_material_enable_italic = true
+        vim.o.background = 'dark' -- 'dark' or 'light'
+        vim.g.gruvbox_material_background = 'soft' -- 'soft', 'medium' or 'hard'
+        -- vim.g.gruvbox_material_better_performance = 1
+        vim.cmd.colorscheme('gruvbox-material')
+      end
     },
 
     -- Highlight todo, notes, etc in comments
@@ -266,6 +279,8 @@ require("lazy").setup({
         --  Check out: https://github.com/echasnovski/mini.nvim
       end,
     },
+
+    'beyondmarc/hlsl.vim',
   },
 
   -- Configure any other settings here. See the documentation for more details.
