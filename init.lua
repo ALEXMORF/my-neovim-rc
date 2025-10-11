@@ -135,7 +135,15 @@ require("lazy").setup({
         { 'j-hui/fidget.nvim', opts = {} },
 
         -- Allows extra capabilities provided by blink.cmp
-        'saghen/blink.cmp',
+        {
+          'saghen/blink.cmp',
+          opts = {
+            sources = {
+                default = { 'lsp', 'path', 'snippets', 'buffer' },
+            },
+            fuzzy = { implementation = "prefer_rust_with_warning" }
+          }
+        },
       },
       config = function()
           vim.api.nvim_create_autocmd('LspAttach', {
@@ -320,7 +328,7 @@ vim.keymap.set('n', '<m-n>', ':cn<CR>')
 vim.keymap.set('n', '<m-p>', ':cp<CR>')
 vim.keymap.set('n', '<m-,>', ':cclose<CR>')
 
+vim.keymap.set('n', '<m-o>', ':LspClangdSwitchSourceHeader<CR>')
+
 -- TODO:
---   lsp goto-def, switch-header, goto-references, open-symbols
---   autocompletion
 --   DAP (ref: https://igorlfs.github.io/neovim-cpp-dbg)
