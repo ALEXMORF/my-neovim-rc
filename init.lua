@@ -140,7 +140,13 @@ require("lazy").setup({
     { 'neovim/nvim-lspconfig',
       dependencies = {
         -- Useful status updates for LSP.
-        { 'j-hui/fidget.nvim', opts = {} },
+        { 'j-hui/fidget.nvim',
+          opts = {
+            notification = {
+              --override_vim_notify = true,
+            }
+          }
+        },
 
         -- Allows extra capabilities provided by blink.cmp
         {
@@ -148,6 +154,7 @@ require("lazy").setup({
           -- NOTE: sometimes lazy.vim doesn't build automatically, run this command in stdpath('data')/blink.cmp/ manually
           build = 'cargo build --release',
           opts = {
+            keymap = { preset = 'super-tab' },
             sources = {
                 default = { 'lsp', 'path', 'snippets', 'buffer' },
             },
@@ -321,6 +328,7 @@ function BuildProject()
   vim.cmd("botright copen") -- open quickfix
   vim.cmd("wincmd p") -- get cursor out of quickfix window 
 
+  vim.notify("⏳ Build started ...", vim.log.levels.INFO)
   vim.fn.jobstart({ "./code/build.bat" }, {
     --cwd = parent_folder,
     stdout_buffered = false,
@@ -341,7 +349,13 @@ function BuildProject()
     end,
 
     on_exit = function(_, code)
-      if code == 0 then
+      local errorCount = 0
+      for k, v in pairs(vim.fn.getqflist()) do
+          if v.valid == 1 then
+              errorCount = errorCount + 1
+          end
+      end
+      if errorCount == 0 then
         vim.notify("✅ Build succeeded", vim.log.levels.INFO)
       else
         vim.notify("❌ Build failed", vim.log.levels.ERROR)
