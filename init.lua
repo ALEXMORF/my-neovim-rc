@@ -370,5 +370,12 @@ vim.keymap.set('n', '<m-,>', ':cclose<CR>')
 
 vim.keymap.set('n', '<m-o>', ':LspClangdSwitchSourceHeader<CR>')
 
+-- interactive terminal
+vim.keymap.set('n', '<leader>t', function()
+    vim.cmd('botright 15split | term')
+    vim.cmd('startinsert')
+end)
+
 -- TODO:
---   DAP (ref: https://igorlfs.github.io/neovim-cpp-dbg)
+-- projects
+-- DAP (ref: https://igorlfs.github.io/neovim-cpp-dbg)
