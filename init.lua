@@ -288,6 +288,7 @@ require("lazy").setup({
     },
 
     'beyondmarc/hlsl.vim',
+    'nvim-telescope/telescope-project.nvim',
   },
 
   -- Configure any other settings here. See the documentation for more details.
@@ -384,6 +385,11 @@ vim.keymap.set('n', '<leader>t', function()
     vim.cmd('botright 15split | term')
     vim.cmd('startinsert')
 end, { desc = "open terminal" })
+
+-- project
+vim.keymap.set('n', '<leader>p', function()
+    require('telescope').extensions.project.project{}
+end, { desc = "open projects" })
 
 -- TODO:
 -- projects
