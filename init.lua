@@ -255,10 +255,10 @@ require("lazy").setup({
       lazy = false,
       priority = 1000,
       config = function()
-        -- vim.g.gruvbox_material_enable_italic = true
+        vim.g.gruvbox_material_enable_italic = false
         vim.o.background = 'dark' -- 'dark' or 'light'
         vim.g.gruvbox_material_background = 'soft' -- 'soft', 'medium' or 'hard'
-        -- vim.g.gruvbox_material_better_performance = 1
+        vim.g.gruvbox_material_better_performance = 1
         vim.cmd.colorscheme('gruvbox-material')
       end
     },
@@ -313,9 +313,13 @@ vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find f
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.current_buffer_fuzzy_find, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
+vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope keymaps' })
 vim.keymap.set('n', '<leader>fv', function() 
     builtin.find_files { cwd = vim.fn.stdpath('config') }
 end, { desc = 'Telescope find vim config files' })
+vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = 'Telescope git commits' })
+vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope git branches' })
+vim.keymap.set('n', '<m-k>', '<C-o>', { desc = 'jump back' })
 
 vim.diagnostic.config({
   virtual_text = true,
@@ -363,18 +367,22 @@ function BuildProject()
     end
   })
 end
-vim.keymap.set("n", "<m-m>", BuildProject, { noremap = true, silent = true })
-vim.keymap.set('n', '<m-n>', ':cn<CR>')
-vim.keymap.set('n', '<m-p>', ':cp<CR>')
-vim.keymap.set('n', '<m-,>', ':cclose<CR>')
+vim.keymap.set("n", "<m-m>", BuildProject, { noremap = true, silent = true, desc = "Build Project" })
+vim.keymap.set('n', '<m-n>', ':cn<CR>', { desc = "go to next quickfix error" })
+vim.keymap.set('n', '<m-p>', ':cp<CR>', { desc = "go to previous quickfix error" })
+vim.keymap.set('n', '<m-,>', ':cclose<CR>', { desc = "close quickfix window" })
 
-vim.keymap.set('n', '<m-o>', ':LspClangdSwitchSourceHeader<CR>')
+
+vim.keymap.set('n', '<m-o>', ':LspClangdSwitchSourceHeader<CR>', { desc = "clangd switch header" })
+vim.lsp.config('clangd', {
+    cmd = { 'clangd', '--header-insertion=never' }
+})
 
 -- interactive terminal
 vim.keymap.set('n', '<leader>t', function()
     vim.cmd('botright 15split | term')
     vim.cmd('startinsert')
-end)
+end, { desc = "open terminal" })
 
 -- TODO:
 -- projects
