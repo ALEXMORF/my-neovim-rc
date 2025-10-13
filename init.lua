@@ -319,6 +319,7 @@ vim.keymap.set('n', '<leader>fv', function()
 end, { desc = 'Telescope find vim config files' })
 vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = 'Telescope git commits' })
 vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope git branches' })
+vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = 'Telescope git status' })
 vim.keymap.set('n', '<m-k>', '<C-o>', { desc = 'jump back' })
 
 vim.diagnostic.config({
