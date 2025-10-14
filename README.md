@@ -6,3 +6,4 @@
     projects need "compile_commands.json" generated at root folder for clangd to work correctly
 3. nerd font (for icons)
 4. ripgrep (for telescope grep)
+5. lazygit (for lazygit integration)

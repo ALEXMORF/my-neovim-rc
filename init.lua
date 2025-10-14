@@ -258,7 +258,7 @@ require("lazy").setup({
         vim.g.gruvbox_material_enable_italic = false
         vim.o.background = 'dark' -- 'dark' or 'light'
         vim.g.gruvbox_material_background = 'soft' -- 'soft', 'medium' or 'hard'
-        vim.g.gruvbox_material_better_performance = 1
+        --vim.g.gruvbox_material_better_performance = 1
         vim.cmd.colorscheme('gruvbox-material')
       end
     },
@@ -289,11 +289,39 @@ require("lazy").setup({
 
     'beyondmarc/hlsl.vim',
     'nvim-telescope/telescope-project.nvim',
+
+    {
+      'folke/snacks.nvim',
+      priority = 1000,
+      lazy = false,
+      opts = {
+        lazygit = {
+          enabled = true,
+          configure = true,
+          -- Theme for lazygit
+          theme = {
+              [241]                      = { fg = "Special" },
+              activeBorderColor          = { fg = "MatchParen", bold = true },
+              cherryPickedCommitBgColor  = { fg = "Identifier" },
+              cherryPickedCommitFgColor  = { fg = "Function" },
+              defaultFgColor             = { fg = "Normal" },
+              inactiveBorderColor        = { fg = "FloatBorder" },
+              optionsTextColor           = { fg = "Function" },
+              searchingActiveBorderColor = { fg = "MatchParen", bold = true },
+              selectedLineBgColor        = { bg = "CursorLine" }, -- set to `default` to have no background colour
+              unstagedChangesColor       = { fg = "DiagnosticError" },
+          },
+          win = {
+              style = "lazygit",
+          },
+        },
+      }
+    },
   },
 
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "habamax" } },
+  install = { colorscheme = { "gruvbox-material" } },
   -- automatically check for plugin updates
   checker = { enabled = true, notify = false },
 })
@@ -318,6 +346,10 @@ vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope keymaps' 
 vim.keymap.set('n', '<leader>fv', function() 
     builtin.find_files { cwd = vim.fn.stdpath('config') }
 end, { desc = 'Telescope find vim config files' })
+
+vim.keymap.set('n', '<leader>gg', function()
+    Snacks.lazygit.open({})
+end, { desc = 'open lazygit' })
 vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = 'Telescope git commits' })
 vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope git branches' })
 vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = 'Telescope git status' })
