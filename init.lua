@@ -315,7 +315,18 @@ require("lazy").setup({
               style = "lazygit",
           },
         },
+        dashboard = {
+          enabled = true
+        },
       }
+    },
+
+    {
+      "folke/persistence.nvim",
+      event = "BufReadPre", -- this will only start session saving when an actual file was opened
+      opts = {
+        -- add any custom options here
+      },
     },
   },
 
@@ -423,6 +434,11 @@ vim.keymap.set('n', '<leader>p', function()
     require('telescope').extensions.project.project{}
 end, { desc = "open projects" })
 
+-- load the session for the current directory
+vim.keymap.set("n", "<leader>qs", function() require("persistence").load() end)
+
+-- select a session to load
+vim.keymap.set("n", "<leader>qS", function() require("persistence").select() end)
+
 -- TODO:
--- projects
 -- DAP (ref: https://igorlfs.github.io/neovim-cpp-dbg)
