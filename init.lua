@@ -328,6 +328,13 @@ require("lazy").setup({
         -- add any custom options here
       },
     },
+
+    {
+      'folke/which-key.nvim',
+      event = "VeryLazy",
+      opts = {
+      },
+    }
   },
 
   -- Configure any other settings here. See the documentation for more details.
@@ -365,6 +372,11 @@ vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = 'Telescope git c
 vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope git branches' })
 vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = 'Telescope git status' })
 vim.keymap.set('n', '<m-k>', '<C-o>', { desc = 'jump back' })
+
+require('which-key').add({
+  { '<leader>f', group = 'find' },
+  { '<leader>g', group = 'git' },
+})
 
 vim.diagnostic.config({
   virtual_text = true,
