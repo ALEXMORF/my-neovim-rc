@@ -429,16 +429,17 @@ vim.keymap.set('n', '<leader>t', function()
     vim.cmd('startinsert')
 end, { desc = "open terminal" })
 
--- project
-vim.keymap.set('n', '<leader>p', function()
+-- project (old)
+--[[
+vim.keymap.set('n', '<leader>po', function()
     require('telescope').extensions.project.project{}
-end, { desc = "open projects" })
-
--- load the session for the current directory
-vim.keymap.set("n", "<leader>qs", function() require("persistence").load() end)
+end, { desc = "project picker" })
+]]--
 
 -- select a session to load
-vim.keymap.set("n", "<leader>qS", function() require("persistence").select() end)
+vim.keymap.set("n", "<leader>p", function()
+    require("persistence").select()
+end, { desc = "project session picker" })
 
 -- TODO:
 -- DAP (ref: https://igorlfs.github.io/neovim-cpp-dbg)
