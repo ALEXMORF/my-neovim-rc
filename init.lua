@@ -405,7 +405,18 @@ function BuildProject()
   vim.cmd("wincmd p") -- get cursor out of quickfix window 
 
   vim.notify("⏳ Build started ...", vim.log.levels.INFO)
-  vim.fn.jobstart({ "./code/build.bat" }, {
+
+  local build_script
+  local os_name = vim.loop.os_uname().sysname
+  if os_name == 'Windows' then
+      print('on win32, using win32 build script ...')
+      build_script = "./code/build.bat"
+  else
+      print('not on win32, using bash script ...')
+      build_script = "./code/build.sh"
+  end
+
+  vim.fn.jobstart({ build_script }, {
     --cwd = parent_folder,
     stdout_buffered = false,
     stderr_buffered = false,
