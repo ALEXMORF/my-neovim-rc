@@ -349,7 +349,16 @@ require("lazy").setup({
       event = "VeryLazy",
       opts = {
       },
-    }
+    },
+
+    {
+        'mfussenegger/nvim-dap',
+    },
+
+    {
+        'rcarriga/nvim-dap-ui',
+        dependencies = {'nvim-neotest/nvim-nio'},
+    },
   },
 
   -- Configure any other settings here. See the documentation for more details.
@@ -478,6 +487,51 @@ end, { desc = "project picker" })
 vim.keymap.set("n", "<leader>p", function()
     require("persistence").select()
 end, { desc = "project session picker" })
+
+-- DAP debugger
+local dap = require('dap')
+dap.adapters.gdb = {
+    type = 'executable',
+    command = 'gdb',
+    -- args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
+    args = { "--interpreter=dap" }
+}
+
+dap.configurations.cpp = {
+    {
+        name = "Launch file",
+        type = "gdb",
+        request = "launch",
+        program = function()
+            return vim.fn.input('Path to exe: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        args = {},
+        cwd = vim.fn.getcwd() .. "/build",
+        stopOnEntry = false,
+    }
+}
+
+vim.keymap.set('n', '<F5>', dap.continue, { desc = "DAP: continue" })
+vim.keymap.set('n', '<F10>', dap.step_over, { desc = "DAP: step over" })
+vim.keymap.set('n', '<F11>', dap.step_into, { desc = "DAP: step into" })
+vim.keymap.set('n', '<F12>', dap.step_out, { desc = "DAP: step out" })
+vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = "DAP: toggle breakpoint" })
+
+local dapui = require('dapui')
+dapui.setup()
+
+dap.listeners.before.attach.dapui_config = function()
+    dapui.open()
+end
+dap.listeners.before.launch.dapui_config = function()
+    dapui.open()
+end
+dap.listeners.before.event_terminated.dapui_config = function()
+    dapui.close()
+end
+dap.listeners.before.event_exited.dapui_config = function()
+    dapui.close()
+end
 
 -- TODO:
 -- DAP (ref: https://igorlfs.github.io/neovim-cpp-dbg)

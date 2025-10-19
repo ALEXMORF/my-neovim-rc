@@ -7,3 +7,4 @@
 3. nerd font (for icons)
 4. ripgrep (for telescope grep)
 5. lazygit (for lazygit integration)
+6. gdb (debugger for c++)
