@@ -333,6 +333,8 @@ require("lazy").setup({
               },
           },
         },
+        notifier = {
+        },
       }
     },
 
@@ -413,15 +415,13 @@ function BuildProject()
   vim.cmd("botright copen") -- open quickfix
   vim.cmd("wincmd p") -- get cursor out of quickfix window 
 
-  vim.notify("⏳ Build started ...", vim.log.levels.INFO)
+  --vim.notify("⏳ Build started ...", vim.log.levels.INFO)
 
   local build_script
   local os_name = vim.loop.os_uname().sysname
   if os_name == 'Windows' then
-      print('on win32, using win32 build script ...')
       build_script = "./code/build.bat"
   else
-      print('not on win32, using bash script ...')
       build_script = "./code/build.sh"
   end
 
@@ -532,6 +532,3 @@ end
 dap.listeners.before.event_exited.dapui_config = function()
     dapui.close()
 end
-
--- TODO:
--- DAP (ref: https://igorlfs.github.io/neovim-cpp-dbg)
