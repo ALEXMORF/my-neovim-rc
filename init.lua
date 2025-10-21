@@ -361,6 +361,8 @@ require("lazy").setup({
         'rcarriga/nvim-dap-ui',
         dependencies = {'nvim-neotest/nvim-nio'},
     },
+
+    'theHamsta/nvim-dap-virtual-text',
   },
 
   -- Configure any other settings here. See the documentation for more details.
@@ -532,3 +534,10 @@ end
 dap.listeners.before.event_exited.dapui_config = function()
     dapui.close()
 end
+
+vim.keymap.set('n', '<leader>?', function()
+    dapui.eval()
+    dapui.eval()
+end, { desc = "DAP: eval expression" })
+
+require("nvim-dap-virtual-text").setup()
