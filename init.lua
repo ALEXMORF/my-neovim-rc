@@ -50,6 +50,8 @@ vim.o.shiftwidth = 4
 vim.o.tabstop = 4
 vim.o.expandtab = true
 
+vim.g.editorconfig = false
+
 vim.g.have_nerd_font = true
 
 -- Example Neovide settings
@@ -453,7 +455,7 @@ function BuildProject()
               errorCount = errorCount + 1
           end
       end
-      if errorCount == 0 then
+      if code == 0 and errorCount == 0 then
         vim.notify("✅ Build succeeded", vim.log.levels.INFO)
       else
         vim.notify("❌ Build failed", vim.log.levels.ERROR)
@@ -514,6 +516,7 @@ dap.configurations.cpp = {
 }
 
 vim.keymap.set('n', '<F5>', dap.continue, { desc = "DAP: continue" })
+vim.keymap.set('n', '<s-F5>', dap.terminate, { desc = "DAP: terminate" })
 vim.keymap.set('n', '<F10>', dap.step_over, { desc = "DAP: step over" })
 vim.keymap.set('n', '<F11>', dap.step_into, { desc = "DAP: step into" })
 vim.keymap.set('n', '<F12>', dap.step_out, { desc = "DAP: step out" })
@@ -541,3 +544,8 @@ vim.keymap.set('n', '<leader>?', function()
 end, { desc = "DAP: eval expression" })
 
 require("nvim-dap-virtual-text").setup()
+
+-- TODO:
+-- build notification should be closer to active panel
+-- debugger launch shouldn't require typing exe path every time
+-- segmentation fault message is absent when crashing in DAP
