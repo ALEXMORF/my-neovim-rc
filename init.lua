@@ -606,6 +606,7 @@ vim.api.nvim_set_hl(0, 'Type', { fg = hm_gold })
 vim.api.nvim_set_hl(0, 'Special', { fg = hm_gold })
 vim.api.nvim_set_hl(0, 'Directory', { fg = hm_gold })
 vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = "#DD5555" })
+vim.api.nvim_set_hl(0, 'Title', { fg = hm_default })
 
 vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = hm_bg, bg = "#DD5555" })
 vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#DD5555" })
