@@ -259,9 +259,9 @@ require("lazy").setup({
       config = function()
         vim.g.gruvbox_material_enable_italic = false
         vim.o.background = 'dark' -- 'dark' or 'light'
-        vim.g.gruvbox_material_background = 'soft' -- 'soft', 'medium' or 'hard'
+        vim.g.gruvbox_material_background = 'medium' -- 'soft', 'medium' or 'hard'
         --vim.g.gruvbox_material_better_performance = 1
-        vim.cmd.colorscheme('gruvbox-material')
+        --vim.cmd.colorscheme('gruvbox-material')
       end
     },
 
@@ -272,17 +272,17 @@ require("lazy").setup({
       'echasnovski/mini.nvim',
 
       config = function()
-        local statusline = require 'mini.statusline'
+        --local statusline = require 'mini.statusline'
         -- set use_icons to true if you have a Nerd Font
-        statusline.setup { use_icons = vim.g.have_nerd_font }
+        -- statusline.setup { use_icons = vim.g.have_nerd_font }
 
         -- You can configure sections in the statusline by overriding their
         -- default behavior. For example, here we set the section for
         -- cursor location to LINE:COLUMN
         ---@diagnostic disable-next-line: duplicate-set-field
-        statusline.section_location = function()
-          return '%2l:%-2v'
-        end
+        --statusline.section_location = function()
+        --  return '%2l:%-2v'
+        --end
 
         -- ... and there is more!
         --  Check out: https://github.com/echasnovski/mini.nvim
@@ -365,6 +365,11 @@ require("lazy").setup({
     },
 
     'theHamsta/nvim-dap-virtual-text',
+
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
+    }
   },
 
   -- Configure any other settings here. See the documentation for more details.
@@ -381,6 +386,32 @@ require('telescope').setup{
 }
 
 vim.lsp.enable('clangd')
+
+local signs = {
+    Error = " ",
+    Warn = " ",
+    Hint = "󰌵 ",
+    Info = " "
+}
+
+local signConf = {
+  text = {},
+  texthl = {},
+  numhl = {},
+}
+
+for type, icon in pairs(signs) do
+  local severityName = string.upper(type)
+  local severity = vim.diagnostic.severity[severityName]
+  local hl = "DiagnosticSign" .. type
+  signConf.text[severity] = icon
+  signConf.texthl[severity] = hl
+  signConf.numhl[severity] = hl
+end
+
+vim.diagnostic.config({
+  signs = signConf,
+})
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<C-p>', function()
@@ -544,6 +575,35 @@ vim.keymap.set('n', '<leader>?', function()
 end, { desc = "DAP: eval expression" })
 
 require("nvim-dap-virtual-text").setup()
+
+require('lualine').setup {
+    options = {
+        theme = 'gruvbox-material',
+    }
+}
+
+-- my colorscheme
+--local hm_default = "#D5B98F"
+local hm_default = "#CDAA7D"
+local hm_bg = "#1F1F1F"
+local hm_red = "#CF5555"
+local hm_green = "#7B9E33"
+local hm_light_green = "#40FF40"
+local hm_gold = "#DDAD3C"
+vim.api.nvim_set_hl(0, 'Normal', { fg = hm_default, bg = hm_bg })
+vim.api.nvim_set_hl(0, 'Identifier', { fg = hm_default })
+vim.api.nvim_set_hl(0, 'Function', { fg = hm_red })
+vim.api.nvim_set_hl(0, '@variable', { fg = hm_default })
+vim.api.nvim_set_hl(0, 'Delimiter', { fg = hm_default })
+vim.api.nvim_set_hl(0, 'Constant', { fg = hm_green })
+vim.api.nvim_set_hl(0, 'String', { link = "Constant" })
+vim.api.nvim_set_hl(0, 'Statement', { fg = hm_gold })
+vim.api.nvim_set_hl(0, 'PreProc', { fg = hm_gold })
+vim.api.nvim_set_hl(0, 'Operator', { fg = hm_gold })
+vim.api.nvim_set_hl(0, 'Type', { fg = hm_gold })
+vim.api.nvim_set_hl(0, 'Special', { fg = hm_gold })
+vim.api.nvim_set_hl(0, 'Directory', { fg = hm_gold })
+vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = "#DD5555" })
 
 -- TODO:
 -- build notification should be closer to active panel
