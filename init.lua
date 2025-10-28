@@ -591,8 +591,10 @@ local hm_green = "#7B9E33"
 local hm_light_green = "#40FF40"
 local hm_gold = "#DDAD3C"
 vim.api.nvim_set_hl(0, 'Normal', { fg = hm_default, bg = hm_bg })
+vim.api.nvim_set_hl(0, 'NormalFloat', { fg = hm_default, bg = hm_bg })
+vim.api.nvim_set_hl(0, 'Comment', { fg = "#7F7F7F" })
 vim.api.nvim_set_hl(0, 'Identifier', { fg = hm_default })
-vim.api.nvim_set_hl(0, 'Function', { fg = hm_red })
+vim.api.nvim_set_hl(0, 'Function', { fg = hm_default })
 vim.api.nvim_set_hl(0, '@variable', { fg = hm_default })
 vim.api.nvim_set_hl(0, 'Delimiter', { fg = hm_default })
 vim.api.nvim_set_hl(0, 'Constant', { fg = hm_green })
@@ -604,6 +606,9 @@ vim.api.nvim_set_hl(0, 'Type', { fg = hm_gold })
 vim.api.nvim_set_hl(0, 'Special', { fg = hm_gold })
 vim.api.nvim_set_hl(0, 'Directory', { fg = hm_gold })
 vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = "#DD5555" })
+
+vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = hm_bg, bg = "#DD5555" })
+vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#DD5555" })
 
 -- TODO:
 -- build notification should be closer to active panel
