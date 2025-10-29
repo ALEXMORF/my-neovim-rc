@@ -60,7 +60,8 @@ if vim.g.neovide then
   vim.o.guifont = "Google Sans Code NF:h15" -- font
   vim.g.neovide_scale_factor = 0.8
   vim.g.neovide_fullscreen = false
-  vim.g.neovide_scroll_animation_length = 0.2
+  vim.g.neovide_scroll_animation_length = 0.15
+  vim.g.neovide_cursor_animation_length = 0.05
 end
 
 -- make sure sign gutter is visible to remove jitter
