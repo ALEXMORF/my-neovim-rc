@@ -57,6 +57,7 @@ vim.g.have_nerd_font = true
 -- Example Neovide settings
 if vim.g.neovide then
   --vim.o.guifont = "LiterationMono Nerd Font Mono:h12" -- font
+  vim.o.guifont = "Google Sans Code NF:h15" -- font
   vim.g.neovide_scale_factor = 0.8
   vim.g.neovide_fullscreen = false
   vim.g.neovide_scroll_animation_length = 0.2
@@ -261,7 +262,6 @@ require("lazy").setup({
         vim.o.background = 'dark' -- 'dark' or 'light'
         vim.g.gruvbox_material_background = 'medium' -- 'soft', 'medium' or 'hard'
         --vim.g.gruvbox_material_better_performance = 1
-        --vim.cmd.colorscheme('gruvbox-material')
       end
     },
 
@@ -581,6 +581,8 @@ require('lualine').setup {
         theme = 'gruvbox-material',
     }
 }
+
+--vim.cmd.colorscheme('gruvbox-material')
 
 -- my colorscheme
 --local hm_default = "#D5B98F"

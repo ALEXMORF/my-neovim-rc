@@ -1,10 +1,11 @@
 # dependencies
 
-0. git
-1. rustup/cargo (for blink.cmp)
-2. clangd (for cpp LSP)
-    projects need "compile_commands.json" generated at root folder for clangd to work correctly
-3. nerd font (for icons)
-4. ripgrep (for telescope grep)
-5. lazygit (for lazygit integration)
-6. gdb (debugger for c++)
+. git
+. rustup/cargo (for blink.cmp)
+. clangd (for cpp LSP)
+   projects need "compile_commands.json" generated at root folder for clangd to work correctly
+. google sans code nerd font (https://github.com/wylu1037/google-sans-code-nerd-font)
+. nerd font (for icons)
+. ripgrep (for telescope grep)
+. lazygit (for lazygit integration)
+. gdb (debugger for c++)
