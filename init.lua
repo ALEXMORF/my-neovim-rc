@@ -478,17 +478,17 @@ vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = 'Telescope git 
 vim.keymap.set('n', '<leader>gs', builtin.git_status, { desc = 'Telescope git status' })
 vim.keymap.set('n', '<m-k>', '<C-o>', { desc = 'jump back' })
 
-vim.keymap.set('n', '<leader>tt', function()
+vim.keymap.set('n', '<leader>dt', function()
     vim.cmd('NvimTreeToggle')
 end, { desc = 'Nvim-tree toggle' })
-vim.keymap.set('n', '<leader>tf', function()
+vim.keymap.set('n', '<leader>df', function()
     vim.cmd('NvimTreeFindFile')
 end, { desc = 'Nvim-tree find file' })
 
 require('which-key').add({
   { '<leader>f', group = 'find' },
   { '<leader>g', group = 'git' },
-  { '<leader>t', group = 'nvim-tree' },
+  { '<leader>d', group = 'nvim-tree' },
 })
 
 vim.diagnostic.config({
