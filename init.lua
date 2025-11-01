@@ -506,7 +506,7 @@ function BuildProject()
 
   local build_script
   local os_name = vim.loop.os_uname().sysname
-  if os_name == 'Windows' then
+  if string.find(os_name, 'Windows') ~= nil then
       build_script = "./code/build.bat"
   else
       build_script = "./code/build.sh"
