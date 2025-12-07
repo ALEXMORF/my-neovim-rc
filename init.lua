@@ -50,6 +50,9 @@ vim.o.shiftwidth = 4
 vim.o.tabstop = 4
 vim.o.expandtab = true
 
+vim.o.cindent = true
+vim.o.cinoptions = "(0"
+
 vim.g.editorconfig = false
 
 vim.g.have_nerd_font = true
