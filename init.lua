@@ -60,7 +60,7 @@ vim.g.have_nerd_font = true
 -- Example Neovide settings
 if vim.g.neovide then
   --vim.o.guifont = "LiterationMono Nerd Font Mono:h12" -- font
-  vim.o.guifont = "Google Sans Code NF:h15" -- font
+  vim.o.guifont = "Google Sans Code NF,Noto Color Emoji:h15" -- font
   vim.g.neovide_scale_factor = 0.8
   vim.g.neovide_fullscreen = false
   vim.g.neovide_scroll_animation_length = 0.15
@@ -554,6 +554,30 @@ vim.keymap.set('n', '<m-n>', ':cn<CR>', { desc = "go to next quickfix error" })
 vim.keymap.set('n', '<m-p>', ':cp<CR>', { desc = "go to previous quickfix error" })
 vim.keymap.set('n', '<m-,>', ':cclose<CR>', { desc = "close quickfix window" })
 
+-- https://emojipedia.org/en/stickers/search?q=circle
+vim.fn.sign_define('DapBreakpoint',
+{
+    text = '🔴',
+    texthl = 'DapBreakpointSymbol',
+    linehl = 'DapBreakpoint',
+    numhl = 'DapBreakpoint'
+})
+
+vim.fn.sign_define("DapStopped",
+{
+    text = "➡️",
+    texthl = "DiagnosticWarn",
+    linehl = "",
+    numhl = "",
+})
+
+vim.fn.sign_define('DapBreakpointRejected',
+{
+    text = '⭕',
+    texthl = 'DapStoppedSymbol',
+    linehl = 'DapBreakpoint',
+    numhl = 'DapBreakpoint'
+})
 
 vim.keymap.set('n', '<m-o>', ':LspClangdSwitchSourceHeader<CR>', { desc = "clangd switch header" })
 vim.lsp.config('clangd', {
@@ -609,7 +633,44 @@ vim.keymap.set('n', '<F12>', dap.step_out, { desc = "DAP: step out" })
 vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = "DAP: toggle breakpoint" })
 
 local dapui = require('dapui')
-dapui.setup()
+dapui.setup({
+    controls = { enabled = false, },
+    element_mappings = {},
+    expand_lines = true,
+    floating = {
+      border = "rounded",
+      mappings = { close = { "q", "<Esc>" } }
+    },
+    force_buffers = true,
+    icons = {
+      collapsed = "",
+      current_frame = "",
+      expanded = ""
+    },
+    layouts = { {
+        elements = { {
+            id = "watches",
+            size = 0.6
+          }, {
+            id = "stacks",
+            size = 0.4
+          }, },
+        position = "right",
+        size = 40
+      }, },
+    mappings = {
+      edit = "e",
+      expand = { "<CR>", "<2-LeftMouse>" },
+      open = "o",
+      remove = "d",
+      repl = "r",
+      toggle = "t"
+    },
+    render = {
+      indent = 1,
+      max_value_lines = 100
+    }
+})
 
 dap.listeners.before.attach.dapui_config = function()
     dapui.open()
@@ -669,6 +730,7 @@ vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = hm_bg, bg = "#DD5555" })
 vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#DD5555" })
 
 -- TODO:
--- build notification should be closer to active panel
 -- debugger launch shouldn't require typing exe path every time
 -- segmentation fault message is absent when crashing in DAP
+-- get dap-virtual-text to work
+-- build notification should be closer to active panel
