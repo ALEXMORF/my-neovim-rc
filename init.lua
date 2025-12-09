@@ -140,6 +140,17 @@ require("lazy").setup({
   spec = {
     -- add your plugins here
     {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                -- See the configuration section for more details
+                -- Load luvit types when the `vim.uv` word is found
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
+    },
+    {
     'nvim-telescope/telescope.nvim', tag = '0.1.8',
       dependencies = { 'nvim-lua/plenary.nvim' }
     },
@@ -163,7 +174,15 @@ require("lazy").setup({
           opts = {
             keymap = { preset = 'super-tab' },
             sources = {
-                default = { 'lsp', 'path', 'snippets', 'buffer' },
+                default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
+                providers = {
+                    lazydev = {
+                        name = "LazyDev",
+                        module = "lazydev.integrations.blink",
+                        -- make lazydev completions top priority (see `:h blink.cmp`)
+                        score_offset = 100,
+                    },
+                },
             },
             fuzzy = { implementation = "prefer_rust" }
           }
@@ -433,6 +452,8 @@ require('telescope').setup{
 }
 
 vim.lsp.enable('clangd')
+vim.lsp.enable('lua_ls')
+
 
 local signs = {
     Error = " ",
@@ -462,14 +483,18 @@ vim.diagnostic.config({
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<C-p>', function()
-    builtin.find_files { cwd = vim.fn.getcwd()..'/code' }
+    if vim.fn.isdirectory(vim.fn.getcwd()..'/code') ~= 0 then
+        builtin.find_files { cwd = vim.fn.getcwd()..'/code' }
+    else
+        builtin.find_files { cwd = vim.fn.getcwd() }
+    end
 end, { desc = 'Telescope find files in code folder' })
 vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
 vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
 vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Telescope keymaps' })
-vim.keymap.set('n', '<leader>fv', function() 
+vim.keymap.set('n', '<leader>fv', function()
     builtin.find_files { cwd = vim.fn.stdpath('config') }
 end, { desc = 'Telescope find vim config files' })
 
@@ -582,6 +607,56 @@ vim.fn.sign_define('DapBreakpointRejected',
 vim.keymap.set('n', '<m-o>', ':LspClangdSwitchSourceHeader<CR>', { desc = "clangd switch header" })
 vim.lsp.config('clangd', {
     cmd = { 'clangd', '--header-insertion=never' }
+})
+
+-- LSP for neovim scripting purposes
+vim.lsp.config('lua_ls', {
+  on_init = function(client)
+    if client.workspace_folders then
+      local path = client.workspace_folders[1].name
+      if
+        path ~= vim.fn.stdpath('config')
+        and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc'))
+      then
+        return
+      end
+    end
+
+    client.config.settings.Lua = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most
+        -- likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+        -- Tell the language server how to find Lua modules same way as Neovim
+        -- (see `:h lua-module-load`)
+        path = {
+          'lua/?.lua',
+          'lua/?/init.lua',
+        },
+      },
+      -- Make the server aware of Neovim runtime files
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME
+          -- Depending on the usage, you might want to add additional paths
+          -- here.
+          -- '${3rd}/luv/library'
+          -- '${3rd}/busted/library'
+        }
+        -- Or pull in all of 'runtimepath'.
+        -- NOTE: this is a lot slower and will cause issues when working on
+        -- your own configuration.
+        -- See https://github.com/neovim/nvim-lspconfig/issues/3189
+        -- library = {
+        --   vim.api.nvim_get_runtime_file('', true),
+        -- }
+      }
+    })
+  end,
+  settings = {
+    Lua = {}
+  }
 })
 
 -- interactive terminal
