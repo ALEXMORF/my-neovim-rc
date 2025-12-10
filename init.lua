@@ -692,7 +692,22 @@ dap.configurations.cpp = {
         type = "gdb",
         request = "launch",
         program = function()
-            return vim.fn.input('Path to exe: ', vim.fn.getcwd() .. '/', 'file')
+            local target_filepath = vim.fn.getcwd()..'/nvim-dap-cpp-target.txt'
+            local target_file = io.open(target_filepath, 'r')
+            if target_file then
+                local target_path = target_file:read()
+                target_file:close()
+                vim.notify("using exe path: "..target_path, vim.log.levels.INFO)
+                return target_path
+            else
+                local target_path = vim.fn.input('Path to exe: ', vim.fn.getcwd() .. '/', 'file')
+                local f = io.open(target_filepath, 'w')
+                if f then
+                    f:write(target_path)
+                    f:close()
+                else
+                end
+            end
         end,
         args = {},
         cwd = vim.fn.getcwd() .. "/build",
@@ -805,7 +820,6 @@ vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = hm_bg, bg = "#DD5555" })
 vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#DD5555" })
 
 -- TODO:
--- debugger launch shouldn't require typing exe path every time
 -- segmentation fault message is absent when crashing in DAP
 -- get dap-virtual-text to work
 -- build notification should be closer to active panel
