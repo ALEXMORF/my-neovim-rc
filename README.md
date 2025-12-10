@@ -10,4 +10,4 @@
 . nerd font (for icons)
 . ripgrep (for telescope grep)
 . lazygit (for lazygit integration)
-. gdb (debugger for c++)
+. codelldb (debugger for c++)

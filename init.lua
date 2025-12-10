@@ -679,17 +679,15 @@ end, { desc = "project session picker" })
 
 -- DAP debugger
 local dap = require('dap')
-dap.adapters.gdb = {
+dap.adapters.codelldb = {
     type = 'executable',
-    command = 'gdb',
-    -- args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
-    args = { "--interpreter=dap" }
+    command = 'codelldb',
 }
 
 dap.configurations.cpp = {
     {
         name = "Launch file",
-        type = "gdb",
+        type = "codelldb",
         request = "launch",
         program = function()
             local target_filepath = vim.fn.getcwd()..'/nvim-dap-cpp-target.txt'
@@ -706,11 +704,15 @@ dap.configurations.cpp = {
                     f:write(target_path)
                     f:close()
                 else
+                    vim.notify("failed to save choice of exe path to "..target_filepath, vim.log.levels.WARN)
                 end
+                return target_path
             end
         end,
         args = {},
-        cwd = vim.fn.getcwd() .. "/build",
+        cwd = function()
+            return vim.fn.getcwd() .. "/build"
+        end,
         stopOnEntry = false,
     }
 }
@@ -740,10 +742,13 @@ dapui.setup({
     layouts = { {
         elements = { {
             id = "watches",
-            size = 0.6
+            size = 0.33
           }, {
             id = "stacks",
-            size = 0.4
+            size = 0.33
+          }, {
+            id = "console",
+            size = 0.33
           }, },
         position = "right",
         size = 40
