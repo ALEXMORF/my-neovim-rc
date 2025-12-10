@@ -742,17 +742,23 @@ dapui.setup({
     layouts = { {
         elements = { {
             id = "watches",
-            size = 0.33
+            size = 0.5
           }, {
             id = "stacks",
-            size = 0.33
-          }, {
-            id = "console",
-            size = 0.33
+            size = 0.5
           }, },
         position = "right",
         size = 40
-      }, },
+      },
+      {
+        elements = { {
+            id = "console",
+            size = 1.0
+          }, },
+        position = "bottom",
+        size = 10
+      },
+    },
     mappings = {
       edit = "e",
       expand = { "<CR>", "<2-LeftMouse>" },
