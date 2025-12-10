@@ -721,7 +721,7 @@ vim.keymap.set('n', '<F5>', dap.continue, { desc = "DAP: continue" })
 vim.keymap.set('n', '<s-F5>', dap.terminate, { desc = "DAP: terminate" })
 vim.keymap.set('n', '<F10>', dap.step_over, { desc = "DAP: step over" })
 vim.keymap.set('n', '<F11>', dap.step_into, { desc = "DAP: step into" })
-vim.keymap.set('n', '<F12>', dap.step_out, { desc = "DAP: step out" })
+vim.keymap.set('n', '<s-F11>', dap.step_out, { desc = "DAP: step out" })
 vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = "DAP: toggle breakpoint" })
 
 local dapui = require('dapui')
@@ -831,6 +831,5 @@ vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = hm_bg, bg = "#DD5555" })
 vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#DD5555" })
 
 -- TODO:
--- segmentation fault message is absent when crashing in DAP
 -- get dap-virtual-text to work
 -- build notification should be closer to active panel
