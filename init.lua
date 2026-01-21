@@ -51,7 +51,7 @@ vim.o.tabstop = 4
 vim.o.expandtab = true
 
 vim.o.cindent = true
-vim.o.cinoptions = "(0"
+vim.o.cinoptions = "(0,L0,:1,l1"
 
 vim.g.editorconfig = false
 
@@ -436,6 +436,8 @@ require("lazy").setup({
             })
         end,
     },
+
+    'sindrets/diffview.nvim',
   },
 
   -- Configure any other settings here. See the documentation for more details.
@@ -714,6 +716,7 @@ dap.configurations.cpp = {
             return vim.fn.getcwd() .. "/build"
         end,
         stopOnEntry = false,
+        showDisassembly = "never",
     }
 }
 
