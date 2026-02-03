@@ -726,11 +726,18 @@ vim.keymap.set('n', '<F10>', dap.step_over, { desc = "DAP: step over" })
 vim.keymap.set('n', '<F11>', dap.step_into, { desc = "DAP: step into" })
 vim.keymap.set('n', '<s-F11>', dap.step_out, { desc = "DAP: step out" })
 vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint, { desc = "DAP: toggle breakpoint" })
+--vim.keymap.set('n', '<leader>bp', dap.up, { desc = "DAP: go up callstack" })
+--vim.keymap.set('n', '<leader>bn', dap.down, { desc = "DAP: go down callstack" })
 
 local dapui = require('dapui')
 dapui.setup({
     controls = { enabled = false, },
-    element_mappings = {},
+    element_mappings = {
+        stacks = {
+            open = "<CR>",
+            expand = "o",
+        },
+    },
     expand_lines = true,
     floating = {
       border = "rounded",
