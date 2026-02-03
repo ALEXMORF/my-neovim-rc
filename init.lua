@@ -752,11 +752,9 @@ dapui.setup({
     layouts = { {
         elements = { {
             id = "watches",
-            size = 0.5
-          }, {
-            id = "stacks",
-            size = 0.5
-          }, },
+            size = 1.0
+          },
+        },
         position = "right",
         size = 40
       },
@@ -800,6 +798,13 @@ vim.keymap.set('n', '<leader>?', function()
     dapui.eval()
     dapui.eval()
 end, { desc = "DAP: eval expression" })
+
+vim.keymap.set('n', '<leader>ds', function()
+    dapui.float_element('stacks', { enter = true })
+end, { desc = "DAP: Show stacks in floating window" })
+vim.keymap.set('n', '<leader>dc', function()
+    dapui.float_element('console', { enter = true })
+end, { desc = "DAP: Show console in floating window" })
 
 require("nvim-dap-virtual-text").setup()
 
