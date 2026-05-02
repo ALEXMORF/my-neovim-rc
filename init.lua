@@ -61,10 +61,13 @@ vim.g.have_nerd_font = true
 if vim.g.neovide then
   --vim.o.guifont = "LiterationMono Nerd Font Mono:h12" -- font
   vim.o.guifont = "Google Sans Code NF,Noto Color Emoji:h15" -- font
+  --vim.o.guifont = "Google Sans Code NF,Noto Color Emoji:h13" -- font
   vim.g.neovide_scale_factor = 0.8
   vim.g.neovide_fullscreen = false
   vim.g.neovide_scroll_animation_length = 0.15
   vim.g.neovide_cursor_animation_length = 0.05
+else
+  vim.o.guifont = "Google Sans Code NF,Noto Color Emoji:h17" -- font
 end
 
 -- make sure sign gutter is visible to remove jitter
@@ -824,26 +827,119 @@ local hm_red = "#CF5555"
 local hm_green = "#7B9E33"
 local hm_light_green = "#40FF40"
 local hm_gold = "#DDAD3C"
-vim.api.nvim_set_hl(0, 'Normal', { fg = hm_default, bg = hm_bg })
-vim.api.nvim_set_hl(0, 'NormalFloat', { fg = hm_default, bg = hm_bg })
-vim.api.nvim_set_hl(0, 'Comment', { fg = "#7F7F7F" })
-vim.api.nvim_set_hl(0, 'Identifier', { fg = hm_default })
-vim.api.nvim_set_hl(0, 'Function', { fg = hm_default })
-vim.api.nvim_set_hl(0, '@variable', { fg = hm_default })
-vim.api.nvim_set_hl(0, 'Delimiter', { fg = hm_default })
-vim.api.nvim_set_hl(0, 'Constant', { fg = hm_green })
-vim.api.nvim_set_hl(0, 'String', { link = "Constant" })
-vim.api.nvim_set_hl(0, 'Statement', { fg = hm_gold })
-vim.api.nvim_set_hl(0, 'PreProc', { fg = hm_gold })
-vim.api.nvim_set_hl(0, 'Operator', { fg = hm_gold })
-vim.api.nvim_set_hl(0, 'Type', { fg = hm_gold })
-vim.api.nvim_set_hl(0, 'Special', { fg = hm_gold })
-vim.api.nvim_set_hl(0, 'Directory', { fg = hm_gold })
-vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = "#DD5555" })
-vim.api.nvim_set_hl(0, 'Title', { fg = hm_default })
+local hm_apply_custom_highlights = function()
+    vim.api.nvim_set_hl(0, 'Normal', { fg = hm_default, bg = hm_bg })
+    vim.api.nvim_set_hl(0, 'NormalFloat', { fg = hm_default, bg = hm_bg })
+    vim.api.nvim_set_hl(0, 'Comment', { fg = "#7F7F7F" })
+    vim.api.nvim_set_hl(0, 'Identifier', { fg = hm_default })
+    vim.api.nvim_set_hl(0, 'Function', { fg = hm_default })
+    vim.api.nvim_set_hl(0, '@variable', { fg = hm_default })
+    vim.api.nvim_set_hl(0, 'Delimiter', { fg = hm_default })
+    vim.api.nvim_set_hl(0, 'Constant', { fg = hm_green })
+    vim.api.nvim_set_hl(0, 'String', { link = "Constant" })
+    vim.api.nvim_set_hl(0, 'Statement', { fg = hm_gold })
+    vim.api.nvim_set_hl(0, 'PreProc', { fg = hm_gold })
+    vim.api.nvim_set_hl(0, 'Operator', { fg = hm_gold })
+    vim.api.nvim_set_hl(0, 'Type', { fg = hm_gold })
+    vim.api.nvim_set_hl(0, 'Special', { fg = hm_gold })
+    vim.api.nvim_set_hl(0, 'Directory', { fg = hm_gold })
+    vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = "#DD5555" })
+    vim.api.nvim_set_hl(0, 'Title', { fg = hm_default })
+    vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = hm_bg, bg = "#DD5555" })
+    vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#DD5555" })
+end
 
-vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = hm_bg, bg = "#DD5555" })
-vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#DD5555" })
+hm_apply_custom_highlights()
+
+local stb_fg = "#444444"
+local stb_bg = "#D8D8D8"
+
+local hm_apply_stb_highlights = function()
+    local groups = {
+        'Comment', 'Identifier', 'Function',
+        '@variable', '@variable.builtin', 'Delimiter', 'Constant', 'String',
+        'Statement', 'PreProc', 'Operator', 'Type', 'Special', 'SpecialChar',
+        'Directory', 'Title', 'EndOfBuffer', 'NonText', 'LineNr',
+        'CursorLineNr', 'FoldColumn', 'SignColumn', 'Whitespace',
+        '@keyword', '@keyword.function', '@keyword.return', '@keyword.operator',
+        '@keyword.directive', '@keyword.directive.define',
+        '@type', '@type.builtin', '@type.qualifier',
+        '@function', '@function.builtin', '@function.call', '@function.method', '@function.method.call',
+        '@variable', '@variable.builtin',
+        '@constant', '@constant.builtin',
+        '@string', '@string.special', '@string.escape',
+        '@comment', '@comment.todo',
+        '@operator', '@operator.cpp',
+        '@preproc', '@define', '@include',
+        '@constructor', '@label',
+        '@namespace', '@module',
+        '@boolean', '@number', '@float', '@character', '@character.special',
+        '@tag', '@tag.attribute', '@tag.delimiter',
+        '@property', '@field',
+        '@parameter', '@parameter.reference',
+        '@punctuation', '@punctuation.bracket', '@punctuation.delimiter', '@punctuation.special',
+    }
+
+    vim.api.nvim_set_hl(0, 'Normal', { fg = stb_fg, bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'NormalFloat', { fg = stb_fg, bg = stb_bg })
+    for _, group in ipairs(groups) do
+        vim.api.nvim_set_hl(0, group, { fg = stb_fg })
+    end
+    vim.api.nvim_set_hl(0, 'DiagnosticError', { fg = "#CC0000", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'DiagnosticWarn', { fg = "#885500", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'DiagnosticInfo', { fg = "#005588", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'DiagnosticHint', { fg = "#005588", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextError', { fg = "#CC0000", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextWarn', { fg = "#885500", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextInfo', { fg = "#005588", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextHint', { fg = "#005588", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = "#CC0000", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#CC0000" })
+    vim.api.nvim_set_hl(0, 'CursorLine', { bg = "#C0C0C0" })
+    vim.api.nvim_set_hl(0, 'Visual', { bg = "#A0A0A0" })
+    vim.api.nvim_set_hl(0, 'Search', { fg = stb_fg, bg = "#A0A0A0" })
+    vim.api.nvim_set_hl(0, 'IncSearch', { fg = stb_bg, bg = stb_fg })
+    vim.api.nvim_set_hl(0, 'WinSeparator', { fg = "#AAAAAA" })
+    vim.api.nvim_set_hl(0, 'FloatBorder', { fg = "#AAAAAA", bg = stb_bg })
+    vim.api.nvim_set_hl(0, 'Pmenu', { fg = stb_fg, bg = "#E0E0E0" })
+    vim.api.nvim_set_hl(0, 'PmenuSel', { fg = stb_bg, bg = stb_fg })
+    vim.api.nvim_set_hl(0, 'PmenuSbar', { bg = "#CCCCCC" })
+    vim.api.nvim_set_hl(0, 'PmenuThumb', { bg = "#AAAAAA" })
+end
+
+local stb_lualine_theme = {
+    normal = { a = { fg = stb_bg, bg = stb_fg }, b = { fg = stb_fg, bg = '#DCDCDC' }, c = { fg = stb_fg, bg = stb_bg } },
+    insert = { a = { fg = stb_bg, bg = stb_fg }, b = { fg = stb_fg, bg = '#DCDCDC' }, c = { fg = stb_fg, bg = stb_bg } },
+    visual = { a = { fg = stb_bg, bg = stb_fg }, b = { fg = stb_fg, bg = '#DCDCDC' }, c = { fg = stb_fg, bg = stb_bg } },
+    replace = { a = { fg = stb_bg, bg = stb_fg }, b = { fg = stb_fg, bg = '#DCDCDC' }, c = { fg = stb_fg, bg = stb_bg } },
+    inactive = { a = { fg = '#999999', bg = stb_bg }, b = { fg = '#999999', bg = stb_bg }, c = { fg = '#999999', bg = stb_bg } },
+}
+
+function ToggleStbStyle()
+    if vim.g.stb_style then
+        vim.g.stb_style = false
+        vim.o.background = 'dark'
+        --vim.cmd.colorscheme('gruvbox-material')
+        hm_apply_custom_highlights()
+        require('lualine').setup { options = { theme = 'gruvbox-material' } }
+        vim.notify("stb style OFF", vim.log.levels.INFO)
+    else
+        vim.g.stb_style = true
+        vim.o.background = 'light'
+        --vim.cmd.colorscheme('gruvbox-material')
+        hm_apply_stb_highlights()
+        require('lualine').setup { options = { theme = stb_lualine_theme } }
+        vim.notify("stb style ON", vim.log.levels.INFO)
+    end
+end
+
+ToggleStbStyle()
+
+vim.keymap.set('n', '<leader>stb', ToggleStbStyle, { desc = "Toggle stb (plain text) style" })
+
+require('which-key').add({
+    { '<leader>s', group = 'stb style' },
+})
 
 -- TODO:
 -- get dap-virtual-text to work
