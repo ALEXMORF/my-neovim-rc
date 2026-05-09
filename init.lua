@@ -292,7 +292,7 @@ require("lazy").setup({
     },
 
     -- Highlight todo, notes, etc in comments
-    { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+    --{ 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
     { -- Collection of various small independent plugins/modules
       'echasnovski/mini.nvim',
@@ -895,7 +895,7 @@ local hm_apply_stb_highlights = function()
     vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextHint', { fg = "#005588", bg = stb_bg })
     vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = "#CC0000", bg = stb_bg })
     vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#CC0000" })
-    vim.api.nvim_set_hl(0, 'CursorLine', { bg = "#C0C0C0" })
+    vim.api.nvim_set_hl(0, 'CursorLine', { bg = "#C8C8C8" })
     vim.api.nvim_set_hl(0, 'Visual', { bg = "#A0A0A0" })
     vim.api.nvim_set_hl(0, 'Search', { fg = stb_fg, bg = "#A0A0A0" })
     vim.api.nvim_set_hl(0, 'IncSearch', { fg = stb_bg, bg = stb_fg })
