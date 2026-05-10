@@ -703,6 +703,24 @@ vim.lsp.config.pyright = {
       },
     },
   },
+  on_init = function(client)
+    if client.workspace_folders then
+      for _, folder in ipairs(client.workspace_folders) do
+        local venv = folder.name .. "/.venv"
+        if vim.fn.isdirectory(venv) == 1 then
+          client.config.settings.python = vim.tbl_deep_extend(
+            "force",
+            client.config.settings.python or {},
+            { pythonPath = venv .. "/bin/python" }
+          )
+          client.notify("workspace/didChangeConfiguration", {
+            settings = client.config.settings,
+          })
+          break
+        end
+      end
+    end
+  end,
 }
 
 
