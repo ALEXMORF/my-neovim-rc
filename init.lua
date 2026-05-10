@@ -4,6 +4,30 @@
 -- NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 
+-- Ensure npm global bin and nvm node are in PATH (GUI apps don't source .bashrc)
+local function prepend_path(dir)
+  if vim.fn.isdirectory(dir) == 1 then
+    vim.env.PATH = dir .. ":" .. vim.env.PATH
+  end
+end
+
+prepend_path(vim.fn.expand("~/.npm-global/bin"))
+
+-- Discover nvm-managed node versions and add to PATH
+local nvm_versions_dir = vim.fn.expand("~/.nvm/versions/node")
+local h = vim.uv.fs_opendir(nvm_versions_dir)
+if h then
+  local entries = vim.uv.fs_readdir(h)
+  vim.uv.fs_closedir(h)
+  if entries then
+    for _, e in ipairs(entries) do
+      if e.type == "directory" then
+        prepend_path(nvm_versions_dir .. "/" .. e.name .. "/bin")
+      end
+    end
+  end
+end
+
 -- [[ Setting options ]] See `:h vim.o`
 -- NOTE: You can change these options as you wish!
 -- For more options, you can see `:help option-list`
@@ -69,6 +93,8 @@ if vim.g.neovide then
 else
   vim.o.guifont = "Google Sans Code NF,Noto Color Emoji:h17" -- font
 end
+
+vim.opt.termguicolors = true
 
 -- make sure sign gutter is visible to remove jitter
 vim.opt.signcolumn = 'yes'
@@ -458,6 +484,8 @@ require('telescope').setup{
 
 vim.lsp.enable('clangd')
 vim.lsp.enable('lua_ls')
+vim.lsp.enable('pyright')
+vim.lsp.enable('ruff')
 
 
 local signs = {
@@ -664,6 +692,20 @@ vim.lsp.config('lua_ls', {
   }
 })
 
+vim.lsp.config.pyright = {
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        diagnosticMode = "openFilesOnly",
+        typeCheckingMode = "standard",
+        useLibraryCodeForTypes = true
+      },
+    },
+  },
+}
+
+
 -- interactive terminal
 vim.keymap.set('n', '<leader>t', function()
     vim.cmd('botright 15split | term')
@@ -847,6 +889,7 @@ local hm_apply_custom_highlights = function()
     vim.api.nvim_set_hl(0, 'Title', { fg = hm_default })
     vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = hm_bg, bg = "#DD5555" })
     vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#DD5555" })
+    vim.api.nvim_set_hl(0, 'Cursor', { fg = hm_bg, bg = hm_default })
 end
 
 hm_apply_custom_highlights()
@@ -895,6 +938,7 @@ local hm_apply_stb_highlights = function()
     vim.api.nvim_set_hl(0, 'DiagnosticVirtualTextHint', { fg = "#005588", bg = stb_bg })
     vim.api.nvim_set_hl(0, 'TodoBgTODO', { fg = "#CC0000", bg = stb_bg })
     vim.api.nvim_set_hl(0, 'TodoFgTODO', { fg = "#CC0000" })
+    vim.api.nvim_set_hl(0, 'Cursor', { fg = stb_bg, bg = stb_fg })
     vim.api.nvim_set_hl(0, 'CursorLine', { bg = "#C8C8C8" })
     vim.api.nvim_set_hl(0, 'Visual', { bg = "#A0A0A0" })
     vim.api.nvim_set_hl(0, 'Search', { fg = stb_fg, bg = "#A0A0A0" })
